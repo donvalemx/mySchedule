@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Horario Personal</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0f0f0f;--card:#1c1c1c;--border:#2c2c2c;--accent:#e8ff47;--orange:#ff6b35;--blue:#47c8ff;--green:#4cff91;--purple:#c47aff;--red:#ff4f4f;--pink:#ff9ec8;--gold:#ffd700;--text:#efefef;--muted:#5a5a5a;--dim:#888;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min-height:100vh;padding:28px 18px 72px;}
+body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse at 10% 10%,rgba(232,255,71,.04) 0%,transparent 55%),radial-gradient(ellipse at 90% 90%,rgba(71,200,255,.035) 0%,transparent 55%);pointer-events:none;z-index:0;}
+.wrap{max-width:960px;margin:0 auto;position:relative;z-index:1;}
+
+/* HEADER */
+header{display:flex;justify-content:space-between;align-items:flex-end;padding-bottom:22px;border-bottom:1px solid var(--border);margin-bottom:28px;animation:up .5s ease both;}
+.logo-tag{font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);margin-bottom:4px;}
+.logo-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(36px,6vw,62px);line-height:.9;letter-spacing:.02em;}
+.logo-title span{color:var(--accent);}
+.header-right{text-align:right;}
+.day-str{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.15em;margin-bottom:3px;}
+#clock{font-family:'Bebas Neue',sans-serif;font-size:38px;color:var(--blue);letter-spacing:.04em;}
+
+/* TABS */
+.tabs{display:flex;gap:3px;margin-bottom:24px;animation:up .5s .07s ease both;}
+.tab{flex:1;padding:10px 6px;background:var(--card);border:1px solid var(--border);font-family:'DM Sans',sans-serif;font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);cursor:pointer;transition:all .18s;text-align:center;line-height:1.6;}
+.tab:hover{color:var(--text);background:#222;}
+.tab.active{background:var(--accent);color:#0f0f0f;border-color:var(--accent);}
+
+/* PROGRESS */
+.prog-wrap{margin-bottom:24px;animation:up .5s .11s ease both;}
+.prog-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;}
+.prog-label{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);}
+.prog-pct{font-family:'Bebas Neue',sans-serif;font-size:20px;color:var(--accent);}
+.prog-track{height:3px;background:var(--border);border-radius:2px;overflow:hidden;}
+.prog-fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--blue));border-radius:2px;transition:width 1s ease;}
+
+/* STATS */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:3px;margin-bottom:28px;animation:up .5s .14s ease both;}
+.stat{background:var(--card);border:1px solid var(--border);padding:12px 10px;text-align:center;}
+.stat-n{font-family:'Bebas Neue',sans-serif;font-size:30px;line-height:1;margin-bottom:2px;}
+.stat-l{font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);}
+
+/* SECTION LABEL */
+.sec-label{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);display:flex;align-items:center;gap:12px;margin-bottom:12px;margin-top:24px;}
+.sec-label::after{content:'';flex:1;height:1px;background:var(--border);}
+
+/* SCHEDULE BLOCKS */
+.sched{display:flex;flex-direction:column;gap:2px;margin-bottom:28px;}
+.block{background:var(--card);border:1px solid var(--border);border-left:3px solid var(--border);transition:all .18s;}
+.block.active{background:rgba(232,255,71,.05);border-left-color:var(--accent) !important;}
+.block.done{opacity:.35;}
+.block.done .b-title{text-decoration:line-through;}
+.block[data-cat="biblia"]{border-left-color:var(--gold);}
+.block[data-cat="ritual"]{border-left-color:#ffb347;}
+.block[data-cat="gym"]{border-left-color:var(--green);}
+.block[data-cat="wod"]{border-left-color:var(--orange);}
+.block[data-cat="work"]{border-left-color:var(--blue);}
+.block[data-cat="meal"]{border-left-color:#ffb347;}
+.block[data-cat="study"]{border-left-color:var(--purple);}
+.block[data-cat="futbol"]{border-left-color:var(--green);}
+.block[data-cat="rest"]{border-left-color:var(--muted);}
+.block[data-cat="read"]{border-left-color:var(--pink);}
+.block[data-cat="fun"]{border-left-color:var(--red);}
+.block.done{border-left-color:var(--border) !important;}
+
+.block-header{display:grid;grid-template-columns:72px 16px 1fr auto 28px;align-items:center;gap:10px;padding:12px 14px;cursor:pointer;}
+.block-header:hover{background:rgba(255,255,255,.03);}
+.b-time{font-family:'Bebas Neue',sans-serif;font-size:18px;color:var(--muted);letter-spacing:.04em;}
+.block.active .b-time{color:var(--accent);}
+.pulse{width:6px;height:6px;border-radius:50%;background:var(--accent);animation:blink 1.4s infinite;flex-shrink:0;}
+.nop{width:6px;}
+@keyframes blink{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.3;transform:scale(.6)}}
+.b-info{display:flex;flex-direction:column;gap:1px;}
+.b-title{font-size:13px;font-weight:500;}
+.b-desc{font-size:11px;color:var(--dim);line-height:1.4;}
+.b-right{display:flex;align-items:center;gap:6px;}
+.b-tag{font-size:9px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;padding:3px 7px;white-space:nowrap;}
+.tag-biblia{background:rgba(255,215,0,.15);color:var(--gold);}
+.tag-ritual{background:rgba(255,179,71,.14);color:#ffb347;}
+.tag-gym{background:rgba(76,255,145,.13);color:var(--green);}
+.tag-wod{background:rgba(255,107,53,.14);color:var(--orange);}
+.tag-work{background:rgba(71,200,255,.13);color:var(--blue);}
+.tag-meal{background:rgba(255,179,71,.14);color:#ffb347;}
+.tag-study{background:rgba(196,122,255,.14);color:var(--purple);}
+.tag-futbol{background:rgba(76,255,145,.13);color:var(--green);}
+.tag-rest{background:rgba(90,90,90,.2);color:var(--dim);}
+.tag-read{background:rgba(255,158,200,.13);color:var(--pink);}
+.tag-fun{background:rgba(255,79,79,.13);color:var(--red);}
+.chk{background:none;border:1px solid var(--border);color:var(--muted);width:26px;height:26px;cursor:pointer;font-size:12px;transition:all .15s;flex-shrink:0;display:flex;align-items:center;justify-content:center;opacity:0;}
+.block-header:hover .chk,.block.done .chk{opacity:1;}
+.chk:hover{background:var(--accent);color:#0f0f0f;border-color:var(--accent);}
+.block.done .chk{background:var(--border);color:var(--muted);}
+.expand-btn{background:none;border:none;color:var(--muted);font-size:14px;cursor:pointer;padding:0 2px;line-height:1;transition:transform .2s;}
+.expand-btn.open{transform:rotate(180deg);color:var(--accent);}
+
+/* ROUTINE PANEL */
+.routine-panel{display:none;border-top:1px solid var(--border);padding:16px 18px 18px;background:rgba(0,0,0,.2);}
+.routine-panel.open{display:block;}
+.routine-title{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);margin-bottom:12px;font-weight:600;}
+table.rt{width:100%;border-collapse:collapse;font-size:11px;}
+table.rt th{text-align:left;color:var(--muted);font-weight:600;letter-spacing:.1em;text-transform:uppercase;font-size:9px;padding:5px 8px;border-bottom:1px solid var(--border);}
+table.rt td{padding:7px 8px;border-bottom:1px solid rgba(255,255,255,.04);color:var(--dim);vertical-align:top;line-height:1.4;}
+table.rt td:first-child{color:var(--text);font-weight:500;white-space:nowrap;}
+table.rt tr:last-child td{border-bottom:none;}
+table.rt tr:hover td{background:rgba(255,255,255,.02);}
+.rt-note{font-size:10px;color:var(--muted);margin-top:10px;padding-top:10px;border-top:1px solid var(--border);line-height:1.6;}
+.rt-note strong{color:var(--orange);}
+
+/* WEEKDAY & NOTE */
+.note-card{background:var(--card);border:1px solid var(--border);border-left:3px solid var(--orange);padding:13px 16px;margin-bottom:6px;font-size:11px;line-height:1.7;color:var(--dim);}
+.note-card strong{color:var(--text);font-weight:600;}
+.weekend-grid{display:grid;grid-template-columns:1fr 1fr;gap:3px;margin-bottom:36px;}
+.wday{background:var(--card);border:1px solid var(--border);padding:16px;}
+.wday-title{font-family:'Bebas Neue',sans-serif;font-size:24px;letter-spacing:.04em;margin-bottom:12px;padding-bottom:9px;border-bottom:1px solid var(--border);}
+.wday-title.sat{color:var(--accent);}
+.wday-title.sun{color:var(--blue);}
+.wday-item{display:flex;gap:9px;align-items:flex-start;margin-bottom:10px;font-size:11px;}
+.wday-time{font-family:'Bebas Neue',sans-serif;font-size:16px;color:var(--muted);min-width:44px;}
+.wday-text{color:var(--dim);line-height:1.5;}
+.wday-text strong{color:var(--text);display:block;font-size:11px;font-weight:500;}
+
+/* PERIODIZATION */
+.periodo{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:3px;margin-bottom:36px;}
+.periodo-card{background:var(--card);border:1px solid var(--border);padding:14px;}
+.periodo-num{font-family:'Bebas Neue',sans-serif;font-size:28px;line-height:1;margin-bottom:4px;}
+.periodo-label{font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;margin-bottom:6px;}
+.periodo-desc{font-size:11px;color:var(--muted);line-height:1.5;}
+
+/* RULES */
+.rules-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(185px,1fr));gap:3px;margin-bottom:44px;}
+.rule{background:var(--card);border:1px solid var(--border);padding:14px;display:flex;gap:11px;align-items:flex-start;}
+.rule-ico{font-size:18px;flex-shrink:0;line-height:1;}
+.rule-title{font-size:12px;font-weight:600;margin-bottom:2px;}
+.rule-desc{font-size:10px;color:var(--muted);line-height:1.5;}
+
+footer{text-align:center;font-size:10px;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;padding-top:18px;border-top:1px solid var(--border);}
+@keyframes up{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+@media(max-width:600px){
+  .stats{grid-template-columns:repeat(2,1fr)}
+  .block-header{grid-template-columns:58px 12px 1fr auto}
+  .b-tag{display:none}
+  .weekend-grid{grid-template-columns:1fr}
+  header{flex-direction:column;align-items:flex-start;gap:10px}
+  .periodo{grid-template-columns:repeat(2,1fr)}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div>
+    <div class="logo-tag">Sistema personal de productividad</div>
+    <div class="logo-title">TU<br><span>HORARIO</span></div>
+  </div>
+  <div class="header-right">
+    <div class="day-str" id="daystr">—</div>
+    <div id="clock">00:00</div>
+  </div>
+</header>
+
+<div class="tabs">
+  <button class="tab" onclick="switchTab('wod')" id="tab-wod">Lun · Vie<br><span style="font-size:9px;opacity:.6">WOD casa · 7am</span></button>
+  <button class="tab" onclick="switchTab('gym')" id="tab-gym">Mar · Mié · Jue<br><span style="font-size:9px;opacity:.6">Gym · 5:40am</span></button>
+  <button class="tab" onclick="switchTab('weekend')" id="tab-weekend">Sáb · Dom<br><span style="font-size:9px;opacity:.6">El Tío + descanso</span></button>
+</div>
+
+<div class="prog-wrap">
+  <div class="prog-head"><span class="prog-label">Progreso del día</span><span class="prog-pct" id="pct">—</span></div>
+  <div class="prog-track"><div class="prog-fill" id="pfill" style="width:0%"></div></div>
+</div>
+
+<div class="stats">
+  <div class="stat"><div class="stat-n" style="color:var(--accent)" id="s-done">—</div><div class="stat-l">Hechos</div></div>
+  <div class="stat"><div class="stat-n" style="color:var(--blue)" id="s-total">—</div><div class="stat-l">Total</div></div>
+  <div class="stat"><div class="stat-n" style="color:var(--green)">5</div><div class="stat-l">Días activos</div></div>
+  <div class="stat"><div class="stat-n" style="color:var(--purple)" id="s-pct">—</div><div class="stat-l">% día</div></div>
+</div>
+
+<div id="tab-content"></div>
+
+<!-- PERIODIZACIÓN -->
+<div class="sec-label">Periodización — ciclo 12 semanas</div>
+<div class="periodo">
+  <div class="periodo-card">
+    <div class="periodo-num" style="color:var(--blue)">1–4</div>
+    <div class="periodo-label" style="color:var(--blue)">Base</div>
+    <div class="periodo-desc">Mismas cargas y rutinas. Dominar técnica. RPE 6–7 siempre. No al fallo.</div>
+  </div>
+  <div class="periodo-card">
+    <div class="periodo-num" style="color:var(--accent)">5–8</div>
+    <div class="periodo-label" style="color:var(--accent)">Progresión</div>
+    <div class="periodo-desc">+5 lb cuando completes reps con buena técnica. Puedes añadir 1 serie extra si te sientes bien.</div>
+  </div>
+  <div class="periodo-card">
+    <div class="periodo-num" style="color:var(--orange)">9</div>
+    <div class="periodo-label" style="color:var(--orange)">Deload</div>
+    <div class="periodo-desc">−20–30% de los pesos o 1 serie menos por ejercicio. Recuperación activa.</div>
+  </div>
+  <div class="periodo-card">
+    <div class="periodo-num" style="color:var(--green)">10–12</div>
+    <div class="periodo-label" style="color:var(--green)">Ajuste</div>
+    <div class="periodo-desc">Nuevo ciclo según progreso: cintura, pesos, dolor rodilla/muñeca. Evalúa y ajusta.</div>
+  </div>
+</div>
+
+<!-- RULES -->
+<div class="sec-label">Reglas del sistema</div>
+<div class="rules-grid">
+  <div class="rule"><div class="rule-ico">✝️</div><div><div class="rule-title">Biblia primero</div><div class="rule-desc">15 min cada mañana. Antes de cualquier pantalla. Ancla el día.</div></div></div>
+  <div class="rule"><div class="rule-ico">⏰</div><div><div class="rule-title">5:40 sin snooze</div><div class="rule-desc">Días de gym: ropa lista desde la noche. Primera alarma = levantarse.</div></div></div>
+  <div class="rule"><div class="rule-ico">🏋️</div><div><div class="rule-title">RPE 6–7 siempre</div><div class="rule-desc">Nunca al fallo. +5 lb solo cuando completes todas las reps con técnica limpia.</div></div></div>
+  <div class="rule"><div class="rule-ico">🦵</div><div><div class="rule-title">Rodilla y muñeca</div><div class="rule-desc">Sin impacto, saltos ni giros bruscos. Agarre neutro siempre. Sin extensión de muñeca.</div></div></div>
+  <div class="rule"><div class="rule-ico">🎓</div><div><div class="rule-title">DataCamp diario</div><div class="rule-desc">Lun/Mié/Vie = avanzar carrera. Mar/Jue = aplicar con datos fútbol 360.</div></div></div>
+  <div class="rule"><div class="rule-ico">🌙</div><div><div class="rule-title">9:30–10 pm: apagar</div><div class="rule-desc">Madrugas 3 días a las 5:40. El sueño es parte del entrenamiento.</div></div></div>
+</div>
+
+<footer>Construido sobre tu vida real · Ciclo base 4 semanas · Ajusta según progreso</footer>
+</div>
+
+<script>
+// ── RUTINAS DE GYM ─────────────────────────────────────────────────────────
+const RUTINAS = {
+  A: {
+    title: "GYM A — Full Body (Martes)",
+    rows: [
+      ["Calentamiento","8 min bici nivel bajo + movilidad hombros/cadera","—","—"],
+      ["Press pecho máquina","3×10","RPE 6–7","Agarre neutro si hay opción"],
+      ["Jalón neutro (agarre neutro)","3×10","RPE 6–7","Codos hacia las caderas"],
+      ["Prensa pierna (pies altos)","3×12","RPE 6–7","Sin bloquear rodilla al extender"],
+      ["Remo máquina","3×10","RPE 6–7","Escápulas juntas al final"],
+      ["Curl femoral acostado","2×12","RPE 6","Controlado en la bajada"],
+      ["Face pull polea","2×12–15","RPE 5–6","Codos arriba, rotación externa"],
+      ["Plancha antebrazos","2×30–40s","—","Glúteos activos, sin hundir cadera"],
+      ["Cardio final","10 min bici/remo/caminadora inclinada","6/10","Si no hay tiempo: 6 min (30s fuerte/30s suave)"],
+    ]
+  },
+  B: {
+    title: "GYM B — Pierna segura + Espalda (Miércoles)",
+    rows: [
+      ["Calentamiento","8 min bici + movilidad cadera/tobillo","—","—"],
+      ["Prensa pierna","4×12","RPE 6–7","2 ángulos si hay máquinas distintas"],
+      ["Curl femoral acostado","4×12","RPE 6–7","Controlado en excéntrico"],
+      ["Extensión de pierna","3×12","RPE 6","Rango parcial si molesta rodilla"],
+      ["Hip thrust o pull-through","3×12–15","RPE 6–7","Sustituye RDL. Glúteo al tope arriba"],
+      ["Remo o jalón (elige 1)","3×10","RPE 6–7","El que no hiciste el martes"],
+      ["Dead bug","2×10 por lado","—","Espalda baja pegada al suelo siempre"],
+      ["Cardio final","10 min bici/remo/caminadora inclinada","6/10","Sin impacto en rodilla"],
+    ]
+  },
+  C: {
+    title: "GYM C — Hombro / Brazos + Core (Jueves)",
+    rows: [
+      ["Calentamiento","8 min bici + movilidad hombros","—","—"],
+      ["Press hombro mancuernas sentado","3×8–10","RPE 6–7","Agarre neutro o semisupino"],
+      ["Jalón neutro","3×10","RPE 6–7","—"],
+      ["Elevaciones laterales mancuernas","3×12","RPE 5–6","Sin impulso, codo ligeramente doblado"],
+      ["Curl mancuernas alternado","3×10–12","RPE 6","Agarre neutro o supino suave"],
+      ["Tríceps polea (cuerda o barra V)","3×12","RPE 6","Codos fijos al costado"],
+      ["Face pull polea","2×15","RPE 5","Rotación externa, codos arriba"],
+      ["Plancha antebrazos","2×30–40s","—","—"],
+      ["Cardio final","10 min bici/remo/caminadora inclinada","6/10","—"],
+    ]
+  },
+  WOD: {
+    title: "HIIT Militar en casa (Lun / Sáb)",
+    rows: [
+      ["Step jacks","2×45s","—","Sin salto. Sustituto jumping jacks"],
+      ["Flexiones inclinadas / agarre neutro","3×8–12","No al fallo","Manos en silla/barra. Sin extensión de muñeca"],
+      ["Sentadillas BW","2×15","—","Profundidad cómoda, rodilla sin dolor"],
+      ["March plank antebrazos","2×30s","—","Sustituye mountain climbers"],
+      ["Split squat asistido","2×10 c/pierna","—","Sustituye zancadas caminando. Agárrate si hace falta"],
+      ["Walk-out sin salto","2×10","—","Sustituye burpees"],
+      ["Farmer walk (si muñeca ok) o Bear crawl","2×40s","—","Bear crawl solo si no molesta muñeca"],
+      ["Wall sit","2×45–60s","—","Espalda pegada a la pared"],
+      ["Abs (crunch o dead bug)","2×20","—","Dead bug si quieres más core estable"],
+    ]
+  }
+};
+
+// ── HORARIO DIARIO ─────────────────────────────────────────────────────────
+const S = {
+  wod: [
+    {time:"7:00",title:"Despertar",desc:"Agua inmediata. Sin celular.",cat:"ritual",tag:"Inicio"},
+    {time:"7:05",title:"Biblia (15 min)",desc:"Lectura devocional. Sin distracciones. Ancla espiritual del día.",cat:"biblia",tag:"Biblia"},
+    {time:"7:20",title:"HIIT Militar en casa (25 min)",desc:"WOD modificado: bajo impacto, rodilla y muñeca friendly. Ver rutina ▼",cat:"wod",tag:"WOD",rutina:"WOD"},
+    {time:"7:45",title:"Ducha + desayuno",desc:"Proteína + carbohidrato limpio. Porciones controladas. Sin ultraprocesados.",cat:"meal",tag:"Comida"},
+    {time:"8:20",title:"Traslado al trabajo",desc:"Podcast de Data Engineering. Nada de scroll.",cat:"rest",tag:"Traslado"},
+    {time:"8:40",title:"TRABAJO",desc:"Jornada completa. Anota ideas técnicas que lleguen.",cat:"work",tag:"Trabajo"},
+    {time:"18:30",title:"Regreso a casa",desc:"Buffer 30 min. Si llegas a las 7 pm el plan aguanta.",cat:"rest",tag:"Traslado"},
+    {time:"19:00",title:"Cena ligera",desc:"Proteína + verdura + carbohidrato moderado. Agua.",cat:"meal",tag:"Comida"},
+    {time:"19:20",title:"DataCamp — Data Engineering (60 min)",desc:"LUNES → avanza curso activo, toma notas, haz ejercicios. VIERNES → repaso semana + siguiente módulo.",cat:"study",tag:"DataCamp"},
+    {time:"20:25",title:"Datos fútbol 360 / portafolio (40 min)",desc:"LUNES → aplica lo aprendido hoy con datos 360. VIERNES → documenta la semana, sube a GitHub, escribe README.",cat:"futbol",tag:"Portafolio"},
+    {time:"21:10",title:"Lectura — libro (25 min)",desc:"Sin pantallas paralelas. El cerebro consolida lo leído durante el sueño.",cat:"read",tag:"Lectura"},
+    {time:"21:35",title:"Cierre del día",desc:"1 logro del día. Lista de mañana. Prepara ropa.",cat:"rest",tag:"Cierre"},
+    {time:"21:50",title:"Entretenimiento (20 min)",desc:"Serie, música, fútbol. Sin culpa.",cat:"fun",tag:"Descanso"},
+    {time:"22:10",title:"Dormir",desc:"Sueño completo. Mañana a las 5:40.",cat:"rest",tag:"Sueño"},
+  ],
+  gym: [
+    {time:"5:40",title:"Despertar",desc:"Sin snooze. Agua. Ropa de gym lista desde anoche.",cat:"ritual",tag:"Inicio"},
+    {time:"5:50",title:"Traslado al gym",desc:"Directo. Sin celular.",cat:"rest",tag:"Traslado"},
+    {time:"6:00",title:"Entrenamiento de fuerza (60 min)",desc:"MAR → GYM A Full Body · MIÉ → GYM B Pierna+Espalda · JUE → GYM C Hombro+Brazos+Core. Ver rutina ▼",cat:"gym",tag:"Gym",rutina:"gymDay"},
+    {time:"7:00",title:"Ducha + desayuno post-entreno",desc:"Proteína prioritaria: huevo, atún, yogur griego. Carbohidrato: avena o tostada. Agua 500 ml.",cat:"meal",tag:"Comida"},
+    {time:"7:30",title:"Biblia (15 min)",desc:"Lectura devocional. Calma antes del trabajo.",cat:"biblia",tag:"Biblia"},
+    {time:"7:45",title:"Traslado al trabajo",desc:"Podcast de Data Engineering.",cat:"rest",tag:"Traslado"},
+    {time:"8:40",title:"TRABAJO",desc:"Jornada completa. Ya entrenaste — el día empieza ganado.",cat:"work",tag:"Trabajo"},
+    {time:"18:30",title:"Regreso a casa",desc:"Buffer 30 min.",cat:"rest",tag:"Traslado"},
+    {time:"19:00",title:"Cena post-entreno",desc:"Proteína + verdura + carbohidrato limpio. Sin sodio extra.",cat:"meal",tag:"Comida"},
+    {time:"19:20",title:"DataCamp — Data Engineering (50 min)",desc:"MAR → SQL: consultas, joins, agregaciones. MIÉ → Python: pandas, limpieza. JUE → proyecto integrador.",cat:"study",tag:"DataCamp"},
+    {time:"20:15",title:"Datos fútbol 360 (40 min)",desc:"MAR → aplica SQL con datos 360. JUE → aplica Python con datos 360. MIÉ → exploración o visualización.",cat:"futbol",tag:"Fútbol 360"},
+    {time:"21:00",title:"Lectura — libro (25 min)",desc:"Aleja la pantalla, relaja el cerebro.",cat:"read",tag:"Lectura"},
+    {time:"21:25",title:"Cierre del día",desc:"Registra cargas del gym. 1 logro técnico. Lista de mañana.",cat:"rest",tag:"Cierre"},
+    {time:"21:45",title:"Pantallas off — dormir",desc:"5:40 am llega rápido. El sueño es parte del entrenamiento.",cat:"rest",tag:"Sueño"},
+  ],
+};
+
+const W = {
+  sab:[
+    {time:"7:00",title:"Despertar tranquilo",desc:"Sin alarma forzada. Estira en cama."},
+    {time:"7:15",title:"Biblia (15–20 min)",desc:"Con más calma. Café, silencio, lectura devocional."},
+    {time:"7:40",title:"Desayuno completo",desc:"El mejor desayuno de la semana. Sin pantallas, sin prisa."},
+    {time:"8:30",title:"El Tío de las Historias (2 hrs)",desc:"Sesión creativa profunda: investiga historia del norteño, escribe guiones, graba audio borrador, planifica contenido."},
+    {time:"10:30",title:"HIIT Militar casa (opcional) o caminata",desc:"Si tienes energía: WOD completo 25 min. Si no: caminata 30 min. Sin presión."},
+    {time:"11:30",title:"Proyecto forestal / agrícola (1 hr)",desc:"Planificación negocio, costos naranja Tamaulipas, seguimiento pies³. Puro análisis, sin código aún."},
+    {time:"13:00",title:"Comida + tiempo social",desc:"Come bien. Familia, amigos. Sin culpa."},
+    {time:"16:00",title:"Tiempo libre real",desc:"Deportes, salir, música, descansar. Recarga total."},
+    {time:"20:00",title:"Revisión semanal (20 min)",desc:"¿Módulos DataCamp? ¿Análisis fútbol? ¿GitHub actualizado? 3 metas concretas para la próxima semana."},
+    {time:"20:30",title:"Lectura — libro (30 min)",desc:"Más tranquilo que entre semana. Disfrútalo."},
+    {time:"22:00",title:"Dormir",desc:"Sábado también necesita descanso real."},
+  ],
+  dom:[
+    {time:"7:30",title:"Despertar sin prisa",desc:"Hidratación. Tranquilo."},
+    {time:"7:45",title:"Biblia (20 min)",desc:"Domingo — tiempo para leer más. Sin prisa."},
+    {time:"8:15",title:"Desayuno tranquilo",desc:"Sin pantallas. Come bien y despacio."},
+    {time:"9:00",title:"El Tío de las Historias (1.5 hrs)",desc:"Continúa del sábado. Publica, programa, edita. Construye la marca."},
+    {time:"10:30",title:"DataCamp adelanto opcional (45 min)",desc:"Bonus si quieres adelantar la semana. Sin obligación."},
+    {time:"11:30",title:"Movilidad / caminata (30–40 min)",desc:"Viernes es descanso/movilidad formal. Domingo igual: sin impacto, activa sin destruir."},
+    {time:"13:00",title:"Comida + descanso",desc:"Come bien. Siesta 20–30 min si el cuerpo lo pide."},
+    {time:"15:00",title:"Tiempo personal libre",desc:"Familia, amigos, entretenimiento. Recarga total."},
+    {time:"18:00",title:"Prep para la semana",desc:"Ropa 5 días lista, comida base preparada, bolsa gym lista, prioridades del lunes claras."},
+    {time:"20:00",title:"Lectura — libro (30 min)",desc:"Cierra el fin de semana leyendo."},
+    {time:"21:00",title:"Cierre semanal",desc:"Pantallas down. Semana clara. Mañana a las 7 am."},
+    {time:"22:00",title:"Dormir",desc:"Empieza la semana descansado y con dirección."},
+  ]
+};
+
+const tagClass={biblia:"tag-biblia",ritual:"tag-ritual",gym:"tag-gym",wod:"tag-wod",work:"tag-work",meal:"tag-meal",study:"tag-study",futbol:"tag-futbol",rest:"tag-rest",read:"tag-read",fun:"tag-fun"};
+let currentTab='wod';
+let done={};
+let expanded={};
+// current gym day
+function gymDayKey(){const d=new Date().getDay();return d===2?'A':d===3?'B':d===4?'C':'A';}
+try{done=JSON.parse(localStorage.getItem('hd5')||'{}');}catch(e){}
+function saveDone(){try{localStorage.setItem('hd5',JSON.stringify(done));}catch(e){}}
+
+function toMin(t){const[h,m]=t.split(':').map(Number);return h*60+m;}
+function nowMin(){const n=new Date();return n.getHours()*60+n.getMinutes();}
+
+function switchTab(tab){
+  currentTab=tab;
+  ['wod','gym','weekend'].forEach(k=>{document.getElementById('tab-'+k).classList.toggle('active',k===tab);});
+  renderContent();
+}
+
+function buildRoutineHTML(key){
+  const r = key==='gymDay' ? RUTINAS[gymDayKey()] : RUTINAS[key];
+  if(!r) return '';
+  let h=`<div class="routine-panel" id="rp-${key}">`;
+  h+=`<div class="routine-title">📋 ${r.title}</div>`;
+  h+=`<table class="rt"><thead><tr><th>Ejercicio</th><th>Series×Reps</th><th>RPE</th><th>Notas</th></tr></thead><tbody>`;
+  r.rows.forEach(row=>{
+    h+=`<tr>${row.map((c,i)=>`<td>${c}</td>`).join('')}</tr>`;
+  });
+  h+=`</tbody></table>`;
+  if(key==='WOD'){
+    h+=`<div class="rt-note"><strong>⚠️ Limitaciones:</strong> Sin saltos (rodilla LCA) · Sin extensión de muñeca (agarre neutro siempre) · No al fallo en flexiones · RPE máximo 7/10</div>`;
+  } else {
+    h+=`<div class="rt-note"><strong>⚠️ Siempre:</strong> Agarre neutro donde sea posible · Sin impacto ni giros bruscos en rodilla derecha · RPE 6–7, no al fallo · Cardio al final: 10 min bici/remo/caminadora inclinada (o 6 min intervalos si no hay tiempo)</div>`;
+  }
+  h+=`</div>`;
+  return h;
+}
+
+function toggleRoutine(key, btn){
+  const panel=document.getElementById('rp-'+key);
+  if(!panel) return;
+  const isOpen=panel.classList.toggle('open');
+  btn.classList.toggle('open', isOpen);
+  btn.textContent = isOpen ? '▲' : '▼';
+}
+
+function renderContent(){
+  const el=document.getElementById('tab-content');
+  currentTab==='weekend'?renderWeekend(el):renderSched(el,currentTab);
+  updateStats();
+}
+
+function renderSched(container,key){
+  const blocks=S[key];
+  const nm=nowMin();
+  let html='<div class="sec-label">Bloques del día</div><div class="sched">';
+  blocks.forEach((b,i)=>{
+    const id=key+'-'+i;
+    const bMin=toMin(b.time);
+    const nMin=i<blocks.length-1?toMin(blocks[i+1].time):bMin+90;
+    const isActive=nm>=bMin&&nm<nMin;
+    const isDone=!!done[id];
+    const tc=tagClass[b.cat]||'tag-rest';
+    const delay=0.15+i*0.028;
+    const hasRutina=!!b.rutina;
+    const rKey=b.rutina||'';
+
+    html+=`<div class="block${isActive?' active':''}${isDone?' done':''}" data-cat="${b.cat}" style="animation:up .4s ${delay}s ease both">
+      <div class="block-header">
+        <div class="b-time">${b.time}</div>
+        <div class="${isActive?'pulse':'nop'}"></div>
+        <div class="b-info">
+          <div class="b-title">${b.title}</div>
+          <div class="b-desc">${b.desc}</div>
+        </div>
+        <div class="b-right">
+          <span class="b-tag ${tc}">${b.tag}</span>
+          ${hasRutina?`<button class="expand-btn" id="ebtn-${rKey}" onclick="toggleRoutine('${rKey}',this)">▼</button>`:''}
+          <button class="chk" onclick="toggleDone('${id}',event)">✓</button>
+        </div>
+      </div>
+      ${hasRutina?buildRoutineHTML(rKey):''}
+    </div>`;
+  });
+  html+='</div>';
+  html+=`<div class="note-card"><strong>⚠️ Salud diaria:</strong> Hígado graso grado 1 · 0 alcohol · 0 chatarra · sodio controlado · agua 2.5 L/día · rodilla sin impacto ni giros · muñeca: agarre neutro siempre.</div>`;
+  container.innerHTML=html;
+}
+
+function renderWeekend(container){
+  let html='<div class="sec-label">Fin de semana</div><div class="weekend-grid">';
+  html+='<div class="wday"><div class="wday-title sat">Sábado</div>';
+  W.sab.forEach(b=>{html+=`<div class="wday-item"><div class="wday-time">${b.time}</div><div class="wday-text"><strong>${b.title}</strong>${b.desc}</div></div>`;});
+  html+='</div><div class="wday"><div class="wday-title sun">Domingo</div>';
+  W.dom.forEach(b=>{html+=`<div class="wday-item"><div class="wday-time">${b.time}</div><div class="wday-text"><strong>${b.title}</strong>${b.desc}</div></div>`;});
+  html+='</div></div>';
+  container.innerHTML=html;
+}
+
+function toggleDone(id,e){
+  e.stopPropagation();
+  done[id]=!done[id];
+  if(!done[id])delete done[id];
+  saveDone();
+  renderContent();
+}
+
+function updateStats(){
+  const key=currentTab==='weekend'?null:currentTab;
+  if(!key){
+    ['s-done','s-total','s-pct'].forEach(id=>document.getElementById(id).textContent='—');
+    document.getElementById('pct').textContent='—';
+    document.getElementById('pfill').style.width='0%';
+    return;
+  }
+  const blocks=S[key];
+  const total=blocks.length;
+  const doneCount=blocks.filter((_,i)=>done[key+'-'+i]).length;
+  const p=Math.round(doneCount/total*100);
+  document.getElementById('s-done').textContent=doneCount;
+  document.getElementById('s-total').textContent=total;
+  document.getElementById('s-pct').textContent=p+'%';
+  document.getElementById('pct').textContent=p+'%';
+  document.getElementById('pfill').style.width=p+'%';
+}
+
+function tick(){
+  const n=new Date();
+  document.getElementById('clock').textContent=String(n.getHours()).padStart(2,'0')+':'+String(n.getMinutes()).padStart(2,'0');
+  const days=['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'];
+  const months=['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
+  document.getElementById('daystr').textContent=`${days[n.getDay()]}, ${n.getDate()} ${months[n.getMonth()]}`;
+}
+
+(function(){
+  const dow=new Date().getDay();
+  if(dow===0||dow===6)switchTab('weekend');
+  else if(dow===2||dow===3||dow===4)switchTab('gym');
+  else switchTab('wod');
+})();
+
+tick();
+setInterval(tick,30000);
+setInterval(()=>{if(currentTab!=='weekend')renderContent();},60000);
+</script>
+</body>
+</html>
