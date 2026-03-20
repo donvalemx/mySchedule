@@ -205,12 +205,12 @@ footer{text-align:center;font-size:10px;color:var(--muted);letter-spacing:.1em;t
 
 <div id="tab-content"></div>
 
-<div class="sec-label">Periodización — ciclo 12 semanas</div>
+<div class="sec-label">Periodización — ciclo 6 semanas</div>
 <div class="periodo">
-  <div class="periodo-card"><div class="periodo-num" style="color:var(--blue)">1–4</div><div class="periodo-label" style="color:var(--blue)">Base</div><div class="periodo-desc">Mismas cargas. Dominar técnica. RPE 6–7. No al fallo.</div></div>
-  <div class="periodo-card"><div class="periodo-num" style="color:var(--accent)">5–8</div><div class="periodo-label" style="color:var(--accent)">Progresión</div><div class="periodo-desc">+5 lb cuando completes reps con buena técnica en todas las series.</div></div>
-  <div class="periodo-card"><div class="periodo-num" style="color:var(--orange)">9</div><div class="periodo-label" style="color:var(--orange)">Deload</div><div class="periodo-desc">−20–30% pesos o 1 serie menos. Recuperación activa.</div></div>
-  <div class="periodo-card"><div class="periodo-num" style="color:var(--green)">10–12</div><div class="periodo-label" style="color:var(--green)">Ajuste</div><div class="periodo-desc">Nuevo ciclo según progreso: cintura, pesos, dolor rodilla/muñeca.</div></div>
+  <div class="periodo-card"><div class="periodo-num" style="color:var(--blue)">1–2</div><div class="periodo-label" style="color:var(--blue)">Base</div><div class="periodo-desc">Cargas iniciales. Aprende los movimientos. RPE según cada ejercicio. No al fallo.</div></div>
+  <div class="periodo-card"><div class="periodo-num" style="color:var(--accent)">3–4</div><div class="periodo-label" style="color:var(--accent)">Progresión</div><div class="periodo-desc">+5 lb si completas el rango alto con técnica en todas las series. Si no → repites peso.</div></div>
+  <div class="periodo-card"><div class="periodo-num" style="color:var(--orange)">5</div><div class="periodo-label" style="color:var(--orange)">Deload</div><div class="periodo-desc">−20% de los pesos o 1 serie menos por ejercicio. Recuperación activa. No saltarla.</div></div>
+  <div class="periodo-card"><div class="periodo-num" style="color:var(--green)">6</div><div class="periodo-label" style="color:var(--green)">Evaluación</div><div class="periodo-desc">Mide cintura, revisa pesos logrados, evalúa rodilla y muñeca. Diseña el siguiente ciclo.</div></div>
 </div>
 
 <div class="sec-label">Reglas del sistema</div>
@@ -230,6 +230,102 @@ footer{text-align:center;font-size:10px;color:var(--muted);letter-spacing:.1em;t
 
 // ── EXERCISE SVGS ─────────────────────────────────────────────────────────
 const EXERCISE_SVGS = {
+  "Sentadilla asistida polea o prensa ligera": `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%"><rect x="8" y="5" width="6" height="80" rx="2" fill="#333" stroke="#47c8ff" stroke-width="1"/>
+<rect x="86" y="5" width="6" height="80" rx="2" fill="#333" stroke="#47c8ff" stroke-width="1"/>
+<rect x="14" y="20" width="72" height="4" rx="2" fill="#47c8ff"/>
+<circle cx="50" cy="24" r="7" fill="none" stroke="#efefef" stroke-width="1.5"/>
+<line x1="50" y1="31" x2="50" y2="50" stroke="#efefef" stroke-width="1.5"/>
+<line x1="50" y1="37" x2="28" y2="30" stroke="#efefef" stroke-width="1.5"/>
+<line x1="50" y1="37" x2="72" y2="30" stroke="#efefef" stroke-width="1.5"/>
+<line x1="50" y1="50" x2="32" y2="62" stroke="#efefef" stroke-width="1.5"/>
+<line x1="32" y1="62" x2="28" y2="76" stroke="#efefef" stroke-width="1.5"/>
+<line x1="50" y1="50" x2="68" y2="62" stroke="#efefef" stroke-width="1.5"/>
+<line x1="68" y1="62" x2="72" y2="76" stroke="#efefef" stroke-width="1.5"/>
+<path d="M50 50 Q40 56 32 62" fill="none" stroke="#4cff91" stroke-width="2.5" stroke-linecap="round"/>
+<path d="M50 50 Q60 56 68 62" fill="none" stroke="#4cff91" stroke-width="2.5" stroke-linecap="round"/>
+<line x1="14" y1="78" x2="86" y2="78" stroke="#333" stroke-width="1.5"/>
+<defs><marker id="as1" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto"><path d="M0,0 L0,6 L6,3 z" fill="#e8ff47"/></marker></defs>
+<line x1="50" y1="48" x2="50" y2="36" stroke="#e8ff47" stroke-width="1.5" marker-end="url(#as1)"/>
+<text x="50" y="93" font-size="7" fill="#888" font-family="Arial" text-anchor="middle">CUADRICEPS / GLUTEO</text></svg>`,
+
+  "Wall sit": `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%"><rect x="72" y="5" width="8" height="80" rx="2" fill="#333" stroke="#47c8ff" stroke-width="1"/>
+<line x1="5" y1="80" x2="95" y2="80" stroke="#333" stroke-width="1.5"/>
+<circle cx="48" cy="18" r="7" fill="none" stroke="#efefef" stroke-width="1.5"/>
+<line x1="48" y1="25" x2="52" y2="52" stroke="#efefef" stroke-width="1.5"/>
+<line x1="52" y1="52" x2="28" y2="52" stroke="#efefef" stroke-width="1.5"/>
+<line x1="28" y1="52" x2="20" y2="78" stroke="#efefef" stroke-width="1.5"/>
+<line x1="52" y1="52" x2="70" y2="52" stroke="#efefef" stroke-width="1.5"/>
+<line x1="70" y1="52" x2="68" y2="78" stroke="#efefef" stroke-width="1.5"/>
+<path d="M30 52 Q50 54 68 52" fill="none" stroke="#4cff91" stroke-width="2.5" stroke-linecap="round"/>
+<path d="M28 52 Q24 38 36 30" fill="none" stroke="#4cff91" stroke-width="2" stroke-linecap="round"/>
+<line x1="52" y1="25" x2="70" y2="30" stroke="#efefef" stroke-width="1.5"/>
+<line x1="50" y1="42" x2="72" y2="42" stroke="#e8ff47" stroke-width="1" stroke-dasharray="2,1"/>
+<text x="42" y="93" font-size="7" fill="#888" font-family="Arial" text-anchor="middle">CUADRICEPS / ISOMETRICO</text></svg>`,
+
+  "Fondos asistidos": `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%"><rect x="18" y="25" width="6" height="50" rx="2" fill="#333" stroke="#47c8ff" stroke-width="1"/>
+<rect x="76" y="25" width="6" height="50" rx="2" fill="#333" stroke="#47c8ff" stroke-width="1"/>
+<rect x="24" y="32" width="16" height="4" rx="2" fill="#47c8ff"/>
+<rect x="60" y="32" width="16" height="4" rx="2" fill="#47c8ff"/>
+<rect x="30" y="62" width="40" height="5" rx="2" fill="#333" stroke="#47c8ff" stroke-width="1"/>
+<circle cx="50" cy="20" r="7" fill="none" stroke="#efefef" stroke-width="1.5"/>
+<line x1="50" y1="27" x2="50" y2="52" stroke="#efefef" stroke-width="1.5"/>
+<line x1="50" y1="36" x2="30" y2="36" stroke="#efefef" stroke-width="1.5"/>
+<line x1="50" y1="36" x2="70" y2="36" stroke="#efefef" stroke-width="1.5"/>
+<line x1="50" y1="52" x2="42" y2="65" stroke="#efefef" stroke-width="1.5"/>
+<line x1="50" y1="52" x2="58" y2="65" stroke="#efefef" stroke-width="1.5"/>
+<path d="M36 36 Q40 28 44 26" fill="none" stroke="#4cff91" stroke-width="2.5" stroke-linecap="round"/>
+<path d="M64 36 Q60 28 56 26" fill="none" stroke="#4cff91" stroke-width="2.5" stroke-linecap="round"/>
+<defs><marker id="af1" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto"><path d="M0,0 L0,6 L6,3 z" fill="#e8ff47"/></marker></defs>
+<line x1="50" y1="50" x2="50" y2="36" stroke="#e8ff47" stroke-width="1.5" marker-end="url(#af1)"/>
+<text x="50" y="90" font-size="7" fill="#888" font-family="Arial" text-anchor="middle">TRICEPS / PECHO</text></svg>`,
+
+  "Pullover polea": `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%"><rect x="62" y="5" width="12" height="35" rx="2" fill="#333" stroke="#47c8ff" stroke-width="1"/>
+<circle cx="66" cy="14" r="3" fill="#47c8ff"/>
+<line x1="66" y1="14" x2="46" y2="35" stroke="#888" stroke-width="1" stroke-dasharray="2,2"/>
+<circle cx="45" cy="36" r="3" fill="#47c8ff"/>
+<circle cx="30" cy="30" r="7" fill="none" stroke="#efefef" stroke-width="1.5"/>
+<line x1="30" y1="37" x2="30" y2="60" stroke="#efefef" stroke-width="1.5"/>
+<rect x="20" y="55" width="20" height="5" rx="2" fill="#333" stroke="#47c8ff" stroke-width="1"/>
+<line x1="30" y1="43" x2="14" y2="26" stroke="#efefef" stroke-width="1.5"/>
+<line x1="14" y1="26" x2="22" y2="16" stroke="#efefef" stroke-width="1.5"/>
+<line x1="30" y1="43" x2="44" y2="36" stroke="#efefef" stroke-width="1.5"/>
+<path d="M18 24 Q14 18 20 14" fill="none" stroke="#4cff91" stroke-width="2.5" stroke-linecap="round"/>
+<path d="M32 38 Q38 32 44 36" fill="none" stroke="#4cff91" stroke-width="2" stroke-linecap="round"/>
+<line x1="60" y1="14" x2="28" y2="34" stroke="#333" stroke-width="1.5"/>
+<line x1="28" y1="34" x2="30" y2="60" stroke="#333" stroke-width="1" stroke-dasharray="2,2"/>
+<text x="50" y="90" font-size="7" fill="#888" font-family="Arial" text-anchor="middle">DORSAL / PECHO</text></svg>`,
+
+  "Curl b\u00edceps barra": `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%"><circle cx="50" cy="14" r="7" fill="none" stroke="#efefef" stroke-width="1.5"/>
+<line x1="50" y1="21" x2="50" y2="54" stroke="#efefef" stroke-width="1.5"/>
+<line x1="50" y1="32" x2="28" y2="36" stroke="#efefef" stroke-width="1.5"/>
+<line x1="28" y1="36" x2="24" y2="22" stroke="#efefef" stroke-width="1.5"/>
+<line x1="50" y1="32" x2="72" y2="36" stroke="#efefef" stroke-width="1.5"/>
+<line x1="72" y1="36" x2="76" y2="22" stroke="#efefef" stroke-width="1.5"/>
+<line x1="18" y1="22" x2="82" y2="22" stroke="#47c8ff" stroke-width="3" stroke-linecap="round"/>
+<line x1="50" y1="54" x2="40" y2="72" stroke="#efefef" stroke-width="1.5"/>
+<line x1="50" y1="54" x2="60" y2="72" stroke="#efefef" stroke-width="1.5"/>
+<path d="M28 32 Q26 27 26 22" fill="none" stroke="#4cff91" stroke-width="2.5" stroke-linecap="round"/>
+<path d="M72 32 Q74 27 74 22" fill="none" stroke="#4cff91" stroke-width="2.5" stroke-linecap="round"/>
+<defs><marker id="ab1" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto"><path d="M0,0 L0,6 L6,3 z" fill="#e8ff47"/></marker></defs>
+<path d="M76 23 Q84 30 80 40" fill="none" stroke="#e8ff47" stroke-width="1.5" marker-end="url(#ab1)"/>
+<text x="50" y="90" font-size="7" fill="#888" font-family="Arial" text-anchor="middle">BICEPS / BARRA</text></svg>`,
+
+  "Goblet squat": `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%"><circle cx="50" cy="16" r="7" fill="none" stroke="#efefef" stroke-width="1.5"/>
+<line x1="50" y1="23" x2="50" y2="48" stroke="#efefef" stroke-width="1.5"/>
+<line x1="50" y1="30" x2="36" y2="36" stroke="#efefef" stroke-width="1.5"/>
+<line x1="36" y1="36" x2="34" y2="44" stroke="#efefef" stroke-width="1.5"/>
+<line x1="50" y1="30" x2="64" y2="36" stroke="#efefef" stroke-width="1.5"/>
+<line x1="64" y1="36" x2="66" y2="44" stroke="#efefef" stroke-width="1.5"/>
+<rect x="38" y="42" width="24" height="8" rx="3" fill="#47c8ff"/>
+<line x1="50" y1="48" x2="34" y2="62" stroke="#efefef" stroke-width="1.5"/>
+<line x1="34" y1="62" x2="28" y2="78" stroke="#efefef" stroke-width="1.5"/>
+<line x1="50" y1="48" x2="66" y2="62" stroke="#efefef" stroke-width="1.5"/>
+<line x1="66" y1="62" x2="72" y2="78" stroke="#efefef" stroke-width="1.5"/>
+<path d="M50 48 Q38 55 34 62" fill="none" stroke="#4cff91" stroke-width="2.5" stroke-linecap="round"/>
+<path d="M50 48 Q62 55 66 62" fill="none" stroke="#4cff91" stroke-width="2.5" stroke-linecap="round"/>
+<line x1="14" y1="80" x2="86" y2="80" stroke="#333" stroke-width="1.5"/>
+<text x="50" y="93" font-size="7" fill="#888" font-family="Arial" text-anchor="middle">CUADRICEPS / GLUTEO</text></svg>`,
+
   "Press pecho m\u00e1quina": `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%"><rect x="60" y="30" width="8" height="40" rx="2" fill="#333" stroke="#47c8ff" stroke-width="1"/><rect x="55" y="65" width="18" height="6" rx="2" fill="#333" stroke="#47c8ff" stroke-width="1"/><circle cx="38" cy="28" r="7" fill="none" stroke="#efefef" stroke-width="1.5"/><line x1="38" y1="35" x2="38" y2="60" stroke="#efefef" stroke-width="1.5"/><line x1="38" y1="42" x2="20" y2="38" stroke="#efefef" stroke-width="1.5"/><line x1="20" y1="38" x2="14" y2="44" stroke="#efefef" stroke-width="1.5"/><line x1="38" y1="42" x2="56" y2="40" stroke="#efefef" stroke-width="1.5"/><line x1="38" y1="60" x2="30" y2="75" stroke="#efefef" stroke-width="1.5"/><line x1="38" y1="60" x2="46" y2="75" stroke="#efefef" stroke-width="1.5"/><line x1="14" y1="44" x2="6" y2="44" stroke="#e8ff47" stroke-width="1.5" marker-end="url(#a1)"/><circle cx="14" cy="44" r="3" fill="#47c8ff"/><path d="M32 40 Q38 44 44 40" fill="none" stroke="#4cff91" stroke-width="2" stroke-linecap="round"/><defs><marker id="a1" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto"><path d="M0,0 L0,6 L6,3 z" fill="#e8ff47"/></marker></defs><text x="50" y="90" font-size="7" fill="#888" font-family="Arial" text-anchor="middle">PECHO</text></svg>`,
   "Jal\u00f3n neutro": `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%"><rect x="30" y="2" width="40" height="5" rx="2" fill="#333" stroke="#47c8ff" stroke-width="1"/><circle cx="50" cy="4" r="2" fill="#47c8ff"/><line x1="50" y1="6" x2="36" y2="30" stroke="#888" stroke-width="1" stroke-dasharray="2,2"/><line x1="50" y1="6" x2="64" y2="30" stroke="#888" stroke-width="1" stroke-dasharray="2,2"/><rect x="30" y="29" width="40" height="4" rx="2" fill="#47c8ff"/><circle cx="50" cy="44" r="6" fill="none" stroke="#efefef" stroke-width="1.5"/><line x1="50" y1="50" x2="50" y2="72" stroke="#efefef" stroke-width="1.5"/><line x1="50" y1="55" x2="36" y2="35" stroke="#efefef" stroke-width="1.5"/><line x1="50" y1="55" x2="64" y2="35" stroke="#efefef" stroke-width="1.5"/><line x1="50" y1="72" x2="40" y2="82" stroke="#efefef" stroke-width="1.5"/><line x1="50" y1="72" x2="60" y2="82" stroke="#efefef" stroke-width="1.5"/><path d="M44 55 Q40 63 44 70" fill="none" stroke="#4cff91" stroke-width="2" stroke-linecap="round"/><path d="M56 55 Q60 63 56 70" fill="none" stroke="#4cff91" stroke-width="2" stroke-linecap="round"/><text x="50" y="93" font-size="7" fill="#888" font-family="Arial" text-anchor="middle">ESPALDA / BICEPS</text></svg>`,
   "Prensa (pies altos)": `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%"><rect x="5" y="15" width="55" height="8" rx="2" fill="#333" stroke="#47c8ff" stroke-width="1"/><rect x="5" y="23" width="8" height="55" rx="2" fill="#333" stroke="#47c8ff" stroke-width="1"/><rect x="13" y="50" width="35" height="6" rx="2" fill="#333" stroke="#47c8ff" stroke-width="1"/><rect x="50" y="12" width="6" height="20" rx="2" fill="#47c8ff"/><circle cx="25" cy="40" r="6" fill="none" stroke="#efefef" stroke-width="1.5"/><line x1="25" y1="46" x2="25" y2="56" stroke="#efefef" stroke-width="1.5"/><line x1="25" y1="50" x2="44" y2="36" stroke="#efefef" stroke-width="1.5"/><line x1="44" y1="36" x2="50" y2="20" stroke="#efefef" stroke-width="1.5"/><line x1="25" y1="50" x2="44" y2="42" stroke="#efefef" stroke-width="1.5"/><line x1="44" y1="42" x2="50" y2="28" stroke="#efefef" stroke-width="1.5"/><rect x="49" y="17" width="8" height="4" rx="1" fill="#efefef"/><rect x="49" y="25" width="8" height="4" rx="1" fill="#efefef"/><path d="M28 50 Q38 44 44 36" fill="none" stroke="#4cff91" stroke-width="2" stroke-linecap="round"/><defs><marker id="a2" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto"><path d="M0,0 L0,6 L6,3 z" fill="#e8ff47"/></marker></defs><line x1="52" y1="32" x2="52" y2="18" stroke="#e8ff47" stroke-width="1.5" marker-end="url(#a2)"/><text x="50" y="93" font-size="7" fill="#888" font-family="Arial" text-anchor="middle">CUADRICEPS / GLUTEO</text></svg>`,
@@ -256,58 +352,59 @@ const EXERCISE_SVGS = {
 // ── GYM ROUTINE DATA ──────────────────────────────────────────────────────
 const GYM_DAYS = {
   A: {
-    label: "Día A — Full Body",
+    label: "Full Body A",
     day: "Martes",
     color: "#4cff91",
     exercises: [
-      {name:"Press pecho máquina",      sets:3, reps:"8–12", rpe:"6–7", peso:"40–60 lb"},
-      {name:"Jalón neutro",             sets:3, reps:"8–12", rpe:"6–7", peso:"55 lb"},
-      {name:"Prensa (pies altos)",      sets:3, reps:"10–12",rpe:"6–7", peso:"45 lb/lado"},
-      {name:"Remo máquina",             sets:3, reps:"10–12",rpe:"6–7", peso:"50 lb"},
-      {name:"Curl femoral",             sets:2, reps:"12–15",rpe:"6–7", peso:"50–70 lb"},
-      {name:"Face pull polea",          sets:2, reps:"15",   rpe:"6",   peso:"25–40 lb"},
-      {name:"Plancha antebrazos",       sets:2, reps:"30–45s",rpe:"7",  peso:"BW"},
+      {name:"Press pecho máquina",               sets:4, reps:"12",     rpe:"7",  peso:"40–60 lb"},
+      {name:"Jalón al pecho",                    sets:4, reps:"12",     rpe:"7",  peso:"55 lb"},
+      {name:"Prensa (pies altos)",               sets:4, reps:"15",     rpe:"8",  peso:"45 lb/lado"},
+      {name:"Curl femoral",                      sets:3, reps:"15",     rpe:"8",  peso:"60–80 lb"},
+      {name:"Tríceps polea",                     sets:3, reps:"15",     rpe:"8",  peso:"40–60 lb"},
+      {name:"Face pull polea",                   sets:2, reps:"15",     rpe:"6",  peso:"25–40 lb"},
+      {name:"Plancha antebrazos",                sets:2, reps:"40s",    rpe:"7",  peso:"BW"},
     ]
   },
   B: {
-    label: "Día B — Pierna + Espalda",
+    label: "Full Body B",
     day: "Miércoles",
     color: "#47c8ff",
     exercises: [
-      {name:"Prensa (2 ángulos máx)",   sets:4, reps:"12",   rpe:"6–7", peso:"45 lb/lado"},
-      {name:"Curl femoral",             sets:4, reps:"12",   rpe:"6–7", peso:"60–80 lb"},
-      {name:"Extensión pierna",         sets:3, reps:"12",   rpe:"6–7", peso:"40–70 lb"},
-      {name:"Pull-through polea",       sets:3, reps:"12–15",rpe:"6–7", peso:"30–60 lb"},
-      {name:"Remo máquina/cable",       sets:3, reps:"10–12",rpe:"6–7", peso:"50–60 lb"},
-      {name:"Dead bug",                 sets:2, reps:"10",   rpe:"6",   peso:"BW"},
+      {name:"Press inclinado máquina",           sets:4, reps:"12",     rpe:"7",  peso:"15 lb c/u"},
+      {name:"Remo máquina",                      sets:4, reps:"15",     rpe:"8",  peso:"50 lb"},
+      {name:"Goblet squat",                      sets:4, reps:"10–12",  rpe:"7",  peso:"25–35 lb"},
+      {name:"Extensión pierna",                  sets:3, reps:"15",     rpe:"7",  peso:"40–70 lb"},
+      {name:"Curl bíceps barra",                 sets:3, reps:"12",     rpe:"8",  peso:"40–50 lb"},
+      {name:"Pullover polea",                    sets:2, reps:"15",     rpe:"7",  peso:"30–50 lb"},
+      {name:"Dead bug",                          sets:2, reps:"10",     rpe:"6",  peso:"BW"},
     ]
   },
   C: {
-    label: "Día C — Hombro + Brazos + Core",
+    label: "Full Body C",
     day: "Jueves",
     color: "#c47aff",
     exercises: [
-      {name:"Press hombro máquina",     sets:3, reps:"8–12", rpe:"6–7", peso:"30–50 lb"},
-      {name:"Jalón al pecho",           sets:3, reps:"10–12",rpe:"6–7", peso:"55–65 lb"},
-      {name:"Elevaciones laterales",    sets:3, reps:"12–15",rpe:"6–7", peso:"10–20 lb c/u"},
-      {name:"Curl martillo",            sets:3, reps:"10–12",rpe:"6–7", peso:"15–25 lb c/u"},
-      {name:"Tríceps polea",            sets:3, reps:"12–15",rpe:"6–7", peso:"40–70 lb"},
-      {name:"Face pull polea",          sets:2, reps:"15",   rpe:"6",   peso:"25–40 lb"},
-      {name:"Plancha antebrazos",       sets:2, reps:"30–45s",rpe:"7",  peso:"BW"},
+      {name:"Press hombro máquina",              sets:4, reps:"12",     rpe:"7",  peso:"30–50 lb"},
+      {name:"Jalón neutro",                      sets:4, reps:"12",     rpe:"7",  peso:"55–65 lb"},
+      {name:"Prensa (pies altos)",               sets:3, reps:"12",     rpe:"7",  peso:"45 lb/lado"},
+      {name:"Pull-through polea",                sets:4, reps:"12–15",  rpe:"7",  peso:"40–60 lb"},
+      {name:"Fondos asistidos",                  sets:3, reps:"10–12",  rpe:"8",  peso:"asistencia adecuada"},
+      {name:"Curl martillo",                     sets:3, reps:"12",     rpe:"8",  peso:"15–25 lb c/u"},
+      {name:"Wall sit",                          sets:2, reps:"45–60s", rpe:"8",  peso:"BW"},
     ]
   },
   D: {
-    label: "Día D — Upper + Pierna ligera",
+    label: "Full Body D — Metabólico",
     day: "Viernes",
     color: "#ff6b35",
     exercises: [
-      {name:"Press inclinado máquina",  sets:3, reps:"10–12",rpe:"6–7", peso:"35–55 lb"},
-      {name:"Remo máquina",             sets:3, reps:"10–12",rpe:"6–7", peso:"50 lb"},
-      {name:"Sentadilla asistida/prensa ligera", sets:3, reps:"10–12",rpe:"6–7", peso:"ligero"},
-      {name:"Curl femoral",             sets:3, reps:"12",   rpe:"6–7", peso:"60–80 lb"},
-      {name:"Extensión pierna",         sets:2, reps:"12",   rpe:"6–7", peso:"40–70 lb"},
-      {name:"Curl EZ",                  sets:2, reps:"10–12",rpe:"6–7", peso:"40–60 lb"},
-      {name:"Tríceps polea",            sets:2, reps:"12–15",rpe:"6–7", peso:"40–70 lb"},
+      {name:"Press pecho máquina",               sets:3, reps:"10",     rpe:"7",  peso:"40–60 lb"},
+      {name:"Remo máquina",                      sets:3, reps:"10",     rpe:"7",  peso:"50–60 lb"},
+      {name:"Sentadilla asistida polea o prensa ligera", sets:3, reps:"12", rpe:"7", peso:"ligero"},
+      {name:"Curl femoral",                      sets:3, reps:"12",     rpe:"8",  peso:"60–80 lb"},
+      {name:"Tríceps polea",                     sets:2, reps:"15",     rpe:"8",  peso:"40–60 lb"},
+      {name:"Face pull polea",                   sets:2, reps:"15",     rpe:"6",  peso:"25–40 lb"},
+      {name:"Plancha antebrazos",                sets:2, reps:"40s",    rpe:"7",  peso:"BW"},
     ]
   }
 };
